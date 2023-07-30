@@ -1,0 +1,152 @@
+<div
+  [ngClass]="{ dark: darkMode }"
+  class="bg-dark p-[2.4rem] md:px-[15rem] md:pt-[2.4rem] h-auto"
+>
+  <div [ngClass]="currentFilter">
+    <div class="flex justify-between items-center">
+      <img src="../../assets/book-logo.svg" alt="" />
+      <div (click)="filter()" class="cursor-pointer flex gap-[1.6rem]">
+        <span class="text-heading-5 font-bold font-Sans Serif">{{
+          currentFilter
+        }}</span>
+        <img src="../../assets/arrow-down.svg" alt="" />
+      </div>
+
+      <div>
+        <label for="">
+          <img
+            (click)="modeToggle()"
+            [src]="
+              darkMode
+                ? '../../assets/dark-mode-slider.svg'
+                : '../../assets/light-mode-slider.svg'
+            "
+            alt=""
+          />
+        </label>
+      </div>
+    </div>
+    <div
+      *ngIf="showFilter"
+      class="flex justify-center z-10 absolute my-0 mx-auto w-[11.3rem] h-[11.3rem] bg-fullWhite shadow-shadow1 rounded-[1.6rem] right-[50%] font"
+    >
+      <ul class="flex justify-evenly items-center flex-col cursor-pointer">
+        <li
+          (click)="onFilterSelected('Sans Serif')"
+          class="font-Sans Serif text-[1.4rem] font-bold hover:text-fullPink"
+        >
+          Sans Serif
+        </li>
+        <li
+          (click)="onFilterSelected('Serif')"
+          class="font-Sans Serif text-[1.4rem] font-bold hover:text-fullPink"
+        >
+          Serif
+        </li>
+        <li
+          (click)="onFilterSelected('Mono')"
+          class="font-Sans Serif text-[1.4rem] font-bold hover:text-fullPink"
+        >
+          Mono
+        </li>
+      </ul>
+    </div>
+    <div class="relative mt-[3.6rem]">
+      <input
+        [(ngModel)]="searchValue"
+        class="w-full h-[6rem] text-[2rem] rounded-[1.5rem] pl-6 bg-fullWhite2 border dark:bg-fullBlack2 dark:text-fullWhite !important"
+        type="text"
+        placeholder="Search for any word…"
+      />
+      <img
+        (click)="searchWord()"
+        class="absolute right-[1rem] top-1/2 transform -translate-y-1/2 cursor-pointer"
+        src="../../assets/search-icon.svg"
+        alt="searchIcon"
+      />
+    </div>
+    <span class="text-fullRed text-heading-3" *ngIf="emptySearch">{{
+      emptySearch
+    }}</span>
+
+    <div *ngIf="word || !searched || (searchInProgress$ | async); else noWord">
+      <div class="play mt-[2.4rem] items-center">
+        <h1
+          #textToRead
+          class="text-heading-2 text-fullBlack3 text-[3.2rem] font-bold dark:text-fullWhite"
+        >
+          {{ word?.word }}
+        </h1>
+        <img
+          class="cursor-pointer h-[5.5rem] row-span-2 right-[2rem] absolute top-[16rem] md:right-[15rem]"
+          (click)="playSound(textToRead.textContent)"
+          src="../../assets/play-button.svg"
+          alt=""
+        />
+        <h2 class="text-heading-4 text-fullPink font-Sans Serif row-start-2">
+          {{ word?.phonetic }}
+        </h2>
+      </div>
+      <div>
+        <ng-container *ngFor="let wordMeaning of word?.meanings">
+          <h2 class="text-heading-4 mt-[2.9rem] mb-[3.1rem] font-bold">
+            {{ wordMeaning.partOfSpeech }}
+          </h2>
+          <h2
+            class="text-heading-3 text-fullWhite4 font-Sans Serif mb-[1.7rem]"
+          >
+            Meaning
+          </h2>
+          <ul class="list-disc pl-4">
+            <ng-container
+              *ngFor="let wordDefinition of wordMeaning.definitions"
+            >
+              <li class="text-heading-5 mb-[1.3rem]">
+                {{ wordDefinition.definition }}
+              </li>
+            </ng-container>
+          </ul>
+          <div
+            class="justify-between items-center mt-[2rem] w-auto h-auto synonyms"
+          >
+            <p class="text-heading-4 text-fullWhite4 row-span-3">Synonyms</p>
+            <p class="text-heading-4 text-fullPink overflow-auto">
+              {{ wordMeaning.synonyms!.join() || " " }}
+            </p>
+          </div>
+        </ng-container>
+        <h3
+          class="text-heading-4 text-fullWhite4 mt-[3.4rem] mb-[.8rem] underline"
+        >
+          Source
+        </h3>
+        <p
+          class="underline text-heading-4 text-fullWhite4 font-Sans Serif pb-[2rem]"
+        >
+          {{ word?.sourceUrls }}
+        </p>
+      </div>
+    </div>
+    <ng-template #noWord>
+      <div class="flex justify-center items-center">
+        <img
+          class="pt-[12.3rem] pb-[4.4rem]"
+          src="../../assets/sad-emoji.svg"
+          alt=""
+        />
+      </div>
+      <h3
+        class="text-center font-bold text-heading-3 text-fullBlack3 pb-[2.4rem] dark:text-fullWhite"
+      >
+        No definition found
+      </h3>
+      <p
+        class="text-heading-4 text-fullWhite4 text-center dark:text-fullWhite4"
+      >
+        Sorry pal, we couldn't find definitions for the word you were looking
+        for. You can try the search again at later time or head to the web
+        instead.
+      </p>
+    </ng-template>
+  </div>
+</div>

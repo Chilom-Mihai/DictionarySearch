@@ -1,0 +1,88 @@
+input::placeholder {
+  font-size: 2rem;
+}
+
+.border {
+  border: 1px solid var(--a-445-ed, #a445ed);
+}
+
+.play {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.synonyms {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+}
+.synonyms > p.text-fullWhite4 {
+  grid-column: 1 / span 1;
+}
+.synonyms > p.text-fullPink {
+  grid-column: 2;
+  overflow: auto;
+}
+
+line ::after {
+  content: "";
+  align-self: center;
+  height: 8rem;
+  color: #a445ed;
+}
+
+::marker {
+  @apply text-fullPink;
+}
+
+/* Add styles for other filters as needed */
+.Sans.Serif {
+  font-family: sans-serif;
+}
+
+.Serif {
+  font-family: serif;
+}
+
+.Mono {
+  font-family: "Inconsolata", monospace;
+}
+
+.header {
+  color: black;
+}
+
+.dark .header {
+  color: white;
+}
+
+.dark body {
+  @apply bg-fullBlack;
+}
+
+.bg-dark {
+  @apply bg-fullWhite;
+}
+
+.dark .bg-dark {
+  @apply bg-fullBlack;
+}
+
+/* Dark theme styles */
+.dark {
+  @apply bg-fullBlack;
+  @apply text-fullWhite;
+}
+
+.dark .bg-fullWhite2 {
+  @apply text-fullBlack;
+}
+
+// .dark h1 {
+//   @apply text-fullWhite;
+// }
+
+.dark .font {
+  @apply text-fullBlack;
+}
