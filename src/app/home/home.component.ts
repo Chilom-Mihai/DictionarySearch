@@ -21,7 +21,7 @@ export class HomeComponent {
   emptySearch = ''
   hidden = false
   searched: boolean = false;
-  searchInProgress$ = new Subject<boolean>();
+  searchInProgress!: boolean
 
   filter() {
     this.showFilter = !this.showFilter
@@ -40,22 +40,20 @@ export class HomeComponent {
 
   searchWord() {
     console.log(this.searchValue);
-    if (this.searchValue && this.searchValue.trim() !== '') {
-      this.searchInProgress$.next(true);
+    if (this.searchValue.trim() !== '') {
       this.dictonaryApiService.gethWord(this.searchValue.trim()).subscribe(data => {
-        this.word = data[0] ? data[0] : undefined;
+        this.word = data[0] || undefined;
+        this.searchInProgress = true;
         console.log(this.word);
-        this.searched = true;
-        this.searchInProgress$.next(false);
       }, error => {
         console.log(error);
         this.word = undefined;
-        this.searched = true;
-        this.searchInProgress$.next(false);
+        this.searchInProgress = true
       });
-    } else {
-      this.emptySearch = 'Whoops, can’t be empty…';
-      this.word = undefined;
+      this.searched = true;
+    }
+    else {
+      this.searched = false;
     }
   }
 
